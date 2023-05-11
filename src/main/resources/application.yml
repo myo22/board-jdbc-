@@ -1,1 +1,8 @@
-
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/exampledb?useUnicode=true&serverTimezone=Asia/Seoul
+    username: minhyung
+    password: 220211
+  thymeleaf:
+#    prefix: classpath:/html/ default?? ????? ??? ??? ????
+#    suffix: .fm
