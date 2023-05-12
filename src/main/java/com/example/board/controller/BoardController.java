@@ -2,6 +2,7 @@ package com.example.board.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 // HTTP요청을 받아서 응답을 받는 컴포넌트, 스프링 부트가 자동으로 Bean으로 생성한다.
 @Controller
@@ -11,6 +12,23 @@ public class BoardController {
     // list를 리턴한다는 것은 classpath:/templates/list.html을 사용한다는 뜻이다. classpath:/경로나  .html(확장자)를 바꿔주고 싶다면 prefix랑 suffix를 바꿔주면 가능하다.
     @GetMapping("/")
     public String list(){
+        // 게시물 목록을 읽어온다. 페이징 처리한다.
         return "list"; // 컨트롤러의 메소드가 리턴하는 문자열은 템플릿 이름이다.
     }
+
+    // /board?id=3 // 물음표 뒤에 값은 파라미터 id, 파라미터 id의 값은 3
+    // /board?id=3
+    // /board?id=3
+    @GetMapping("/board")
+    public String board(@RequestParam("id") int id){
+        System.out.println("id : " + id);
+
+        // id에 해당하는 게시물을 읽어온다.
+        // id에 해당하는 게시물의 조회수도 1증가한다.
+
+        return "board";
+    }
+
+    // 삭제한다. 관리자는 모든 글을 삭제할 수 있다.
+    // 수정한다.
 }
