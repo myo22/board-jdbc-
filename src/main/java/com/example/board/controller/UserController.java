@@ -14,6 +14,13 @@ public class UserController {
         return "userRegForm";
     }
 
+    /**
+     * 회원 정보를 등록한다.
+     * @param name
+     * @param email
+     * @param password
+     * @return
+     */
     @PostMapping("/userReg")
     public String userReg(
             @RequestParam("name") String name,
@@ -24,7 +31,8 @@ public class UserController {
         System.out.println("email : " + email);
         System.out.println("password : " + password);
 
-        //회원 정보를 저장한다.
+        // 어떤 기능이 필요한지 미리 알 수 있다. -> interface이다.
+        //회원 정보를 저장한다. -> 이 부분을 처리하는게 서비스이다.
 
         return "redirect:/welcome"; // 브라우저에게 자동으로 http://localhost:8080/welcome으로 이동
     }
