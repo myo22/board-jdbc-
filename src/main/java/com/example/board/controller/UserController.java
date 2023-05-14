@@ -32,7 +32,7 @@ public class UserController {
     // http://localhost:8080/welcome
     @GetMapping("/welcome")
     public String welcome(){
-        return "/welcome";
+        return "welcome";
     }
 
     @GetMapping("/loginForm")
