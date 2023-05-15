@@ -24,7 +24,7 @@ public class UserService {
     public User addUser(String name, String email, String password) {
         // 트랜잭션이 여기서 시작된다.
         User user = userDao.addUser(email,name,password); // user가 리턴 되는 것이다. - >  userDao.getLastInsertId(); // 유저의 ID값을 받아옴.
-        userDao.mappintUserRole(user.getUser_id()); // 권한을 부여한다.
+        userDao.mappingUserRole(user.getUser_id()); // 권한을 부여한다.
         return user;
         // 트랜잭션이 끝난다.
     }
