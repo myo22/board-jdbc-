@@ -1,7 +1,9 @@
 package com.example.board.dao;
 
 import com.example.board.dto.User;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 
 // 데이터를 처리해 주는 역할. 직관적으로 알려줌
 @Repository // spring이 관리하는 Bean
@@ -36,7 +39,7 @@ public class UserDao {
         user.setName(name); // name 칼럼에 값을 넣어줌
         user.setEmail(email); // email
         user.setPassword(password); // password
-        user.setRegdate(new java.util.Date().toString()); // regdate
+        user.setRegdate(LocalDateTime.now()); // regdate
         SqlParameterSource params = new BeanPropertySqlParameterSource(user); // DTO에 있는 값을 자동으로  SqlParameterSource로 넣어주는 객체이다.
         // 기존에 사용하던 execute가 아닌 executeAndReturnKey을 사용하는 이유는 자동으로 생성된 ID를 가져온다.
         Number number = insertUser.executeAndReturnKey(params); // params자리에 String email, String name, String password들이 들어간다.
@@ -57,6 +60,16 @@ public class UserDao {
         String sql = "insert into user_role(user_id, role_id) values (:userId, 1)";
         SqlParameterSource params = new MapSqlParameterSource("userId", userId);
         jdbcTemplate.update(sql,params);
+    }
+
+    @Transactional
+    public User getUser(String email) {
+        String sql = "select * from user where email = :email";
+        SqlParameterSource params = new MapSqlParameterSource("email", email);
+        // user_id => setUserId, email => setEmail ... 이렇게 만들어 준다.
+        RowMapper<User> rowMapper = BeanPropertyRowMapper.newInstance(User.class);
+        User user =  jdbcTemplate.queryForObject(sql, params, rowMapper);
+        return  user;
     }
 }
 
