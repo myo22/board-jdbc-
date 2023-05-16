@@ -40,9 +40,14 @@ public class BoardController {
     // 수정한다.
 
     @GetMapping("/writeForm")
-    public String writeForm(){
+    public String writeForm(HttpSession httpSession, Model model){
         // 로그인한 사용자만 글을 써야한다. 로그인을 하지 않았다면 리스트 보기로 자동 이동 시킨다.
         // 세션에서 로그인한 정보를 읽어들인다.
+        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
+        if(loginInfo == null){ // 세션에 로그인 정보가 없으면 /loginform으로 redirect
+            return "redirect:/loginForm";
+        }
+        model.addAttribute("loginInfo", loginInfo);
 
         return "writeForm";
     }
@@ -52,6 +57,7 @@ public class BoardController {
             @RequestParam("title") String title,
             @RequestParam("content") String content
     ){
+
         // 로그인한 사용자만 글을 써야한다. 로그인을 하지 않았다면 리스트 보기로 자동 이동 시킨다.
         // 세션에서 로그인한 정보를 읽어들인다.
         System.out.println(title);

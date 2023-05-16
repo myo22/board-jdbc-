@@ -18,7 +18,7 @@
     <div class="login-info">
         <div class="container">
           <span class="login-info_user" th:if="${loginInfo != null}">
-            <span>이민형</span>
+            <span th:text="${loginInfo.getName()}"></span>
           </span>
             <span class="login-info_logout" th:if="${loginInfo == null}">
             <a href="/loginForm">로그인</a>
@@ -73,10 +73,12 @@
                 </tr>
                 </tbody>
             </table>
-    </div>
-        <div>
-            <a href="/writeForm">글쓰기</a>
         </div>
+        <div>
+            <a href="/writeForm" th:if="${loginInfo != null}">글쓰기</a>
+            <span th:if="${loginInfo == null}">글쓰기</span>
+        </div>
+    </div>
 </section>
 </body>
 </html>
