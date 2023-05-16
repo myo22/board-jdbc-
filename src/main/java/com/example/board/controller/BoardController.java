@@ -1,5 +1,6 @@
 package com.example.board.controller;
 
+import com.example.board.dto.Board;
 import com.example.board.dto.LoginInfo;
 import com.example.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 // HTTP요청을 받아서 응답을 받는 컴포넌트, 스프링 부트가 자동으로 Bean으로 생성한다.
 @Controller
@@ -25,7 +27,12 @@ public class BoardController {
     public String list(HttpSession httpSession, Model model){ // HttpSession, Model은 Spring이 자동으로 넣어준다.
         LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
         model.addAttribute("loginInfo", loginInfo); // 모델은 템플릿에 값을 넘겨주기위한 객체
+
         // 게시물 목록을 읽어온다. 페이징 처리한다.
+        int page = 1;
+        int totalCount = boardService.getTotalCount(); // 11
+        List<Board> list = boardService.getBoards(page); // page가 1,2,3,4 ....
+
         return "list"; // 컨트롤러의 메소드가 리턴하는 문자열은 템플릿 이름이다.
     }
 
@@ -65,6 +72,7 @@ public class BoardController {
             HttpSession httpSession
     ){
         System.out.println("title : " + title);
+        System.out.println("content: " + content);
 
         // 로그인한 사용자만 글을 써야한다. 로그인을 하지 않았다면 리스트 보기로 자동 이동 시킨다.
         // 세션에서 로그인한 정보를 읽어들인다.

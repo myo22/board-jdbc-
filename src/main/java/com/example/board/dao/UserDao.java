@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class UserDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsertOperations insertUser;
+    private  final SimpleJdbcInsertOperations insertUser;
 
     public UserDao(DataSource dataSource) { // Hikari라는 데이터 소스를 구현하는 객체가 생성
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
