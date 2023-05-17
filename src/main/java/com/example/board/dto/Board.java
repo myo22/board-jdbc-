@@ -13,10 +13,13 @@ public class Board {
     private int boardId;
     private String title;
     private String content;
+    private String name; // 추가해줘야한다. Join 했기 때문에
     private int userId;
     private LocalDateTime regdate;
     private int viewCnt;
 }
+
+// b.user_id, b.board_id, b.title, b.regdate, b.view_cnt, u.name
 
 /*
 'board_id', 'int', 'NO', 'PRI', NULL, 'auto_increment'

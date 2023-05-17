@@ -32,6 +32,19 @@ public class BoardController {
         int page = 1;
         int totalCount = boardService.getTotalCount(); // 11
         List<Board> list = boardService.getBoards(page); // page가 1,2,3,4 ....
+        int pageCount = totalCount / 10;
+        if (totalCount % 10> 0){
+            pageCount++;
+        }
+        int currentPage = page;
+        model.addAttribute("list", list);
+        model.addAttribute("pageCount", pageCount);
+        model.addAttribute("currenPage", currentPage);
+
+//        System.out.println("totalCount : " + totalCount);
+//        for(Board board : list){
+//            System.out.println(board);
+//        }
 
         return "list"; // 컨트롤러의 메소드가 리턴하는 문자열은 템플릿 이름이다.
     }

@@ -47,29 +47,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>3</td>
+                <tr th:each="board : ${list}">
+                    <td th:text="${board.boardId}"></td>
                     <th>
-                        <a href="/board?id=3">제목1</a>
+                        <a href="/board?id=3" th:text="${board.title}"></a>
                     </th>
-                    <td>1</td>
-                    <td>2022.05.11</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <th>
-                        <a href="/board?id=2">제목2</a>
-                    </th>
-                    <td>0</td>
-                    <td>2022.05.11</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <th>
-                        <a href="/board?id=1">제목3</a>
-                    </th>
-                    <td>1</td>
-                    <td>2022.05.11</td>
+                    <td th:text="${board.viewCnt}"></td>
+                    <td th:text="${board.name}"></td>
+                    <td th:text="${board.regdate}"></td>
                 </tr>
                 </tbody>
             </table>
