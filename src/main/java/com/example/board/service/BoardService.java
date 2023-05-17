@@ -35,4 +35,12 @@ public class BoardService {
         boardDao.updateViewCnt(boardId);
         return board;
     }
+
+    @Transactional
+    public void deleteBoard(int userId, int boardId) {
+        Board board = boardDao.getBoard(boardId);
+        if (board.getUserId() == userId){
+            boardDao.deleteBoard(boardId);
+        }
+    }
 }

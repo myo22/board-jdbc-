@@ -71,5 +71,16 @@ public class BoardDao {
 
     @Transactional
     public void updateViewCnt(int boardId) {
+        String sql = "update board\n" +
+                "set view_cnt = view_cnt +1\n" +
+                "where board_id = :boardId";
+        SqlParameterSource params = new MapSqlParameterSource("boardId", boardId);
+        jdbcTemplate.update(sql, params);
+    }
+
+    @Transactional
+    public void deleteBoard(int boardId){
+        String sql = "delete from board where = :boardId";
+        jdbcTemplate.update(sql, Map.of("boardId", boardId));
     }
 }

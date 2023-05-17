@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 // HTTP요청을 받아서 응답을 받는 컴포넌트, 스프링 부트가 자동으로 Bean으로 생성한다.
@@ -60,7 +61,7 @@ public class BoardController {
         System.out.println("boardId : " + boardId);
 
         // id에 해당하는 게시물을 읽어온다.
-        // id에 해당하는 게시물의 조회수도 1증가한다.
+        // id에 해당하는 게시물의 조회수도 1증가한다.ㄴ
         Board board = boardService.getBoard(boardId);
         model.addAttribute("board", board);
         return "board";
@@ -103,5 +104,21 @@ public class BoardController {
 
         return "redirect:/"; // 리스트 보기로 리다이렉트한다.
 
+    }
+
+    @GetMapping("/delete")
+    public String delete(
+            @RequestParam("boardId") int boardId,
+            HttpSession httpSession
+    ){
+        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
+        if(loginInfo == null){ // 세션에 로그인 정보가 없으면 /loginform으로 redirect
+            return "redirect:/loginForm";
+        }
+
+        // loginInfo.getUserId() 사용자가 쓴 글일 경우에만 삭제한다.
+        boardService.deleteBoard(loginInfo.getUserId(), boardId);
+
+        return "redirect:/"; // 리스트 보기로 리다이렉트한다.
     }
 }
