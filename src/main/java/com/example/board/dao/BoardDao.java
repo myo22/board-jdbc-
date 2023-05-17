@@ -2,6 +2,7 @@ package com.example.board.dao;
 
 import com.example.board.dto.Board;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -57,5 +58,18 @@ public class BoardDao {
         RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
         List<Board> list = jdbcTemplate.query(sql, Map.of("start", start), rowMapper);
         return list;
+    }
+
+    @Transactional(readOnly = true)
+    public Board getBoard(int boardId) {
+        String sql = "select b.user_id, b.board_id, b.title, b.regdate, b.view_cnt, u.name, b.content from board b, user u where b.user_id = u.user_id and :boardId";
+        RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
+        SqlParameterSource params = new BeanPropertySqlParameterSource(boardId);
+        Board board = jdbcTemplate.queryForObject(sql, params, rowMapper);
+        return board;
+    }
+
+    @Transactional
+    public void updateViewCnt(int boardId) {
     }
 }

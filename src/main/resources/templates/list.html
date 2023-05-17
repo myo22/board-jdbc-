@@ -50,7 +50,7 @@
                 <tr th:each="board : ${list}">
                     <td th:text="${board.boardId}"></td>
                     <th>
-                        <a href="/board?id=3" th:text="${board.title}"></a>
+                        <a th:href="@{/board(boardId=${board.boardId})}" th:text="${board.title}"></a>
                     </th>
                     <td th:text="${board.viewCnt}"></td>
                     <td th:text="${board.name}"></td>
@@ -64,11 +64,13 @@
             <span th:if="${loginInfo == null}">글쓰기</span>
         </div>
         <div>
-            <span th:if="${pageCount / 10 < 1}" th:each="n : ${#numbers.sequence(1, pageCount)}">
+            </span>
+            <span th:if="${num < 1}" th:each="n : ${#numbers.sequence(1, pageCount)}">
                 <a th:href="@{/(page=${n})}" th:text="${n}"></a>
             </span>
-            <span th:if="${pageCount / 10 >= 1}" th:each="n : ${#numbers.sequence(10, pageCount)}">
+            <span th:if="${num >= 1}" th:each="n : ${#numbers.sequence(start, pageCount)}">
                 <a th:href="@{/(page=${n})}" th:text="${n}"></a>
+                <a th:href="@{/(page=${n})}" th:text="prev"></a>
             </span>
         </div>
     </div>
