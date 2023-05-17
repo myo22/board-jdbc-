@@ -24,16 +24,15 @@ public class BoardController {
     // http://localhost:8080/ -----> "list"라는 이름의 템플릿을 사용(forward)하여 화면에 출력.
     // list를 리턴한다는 것은 classpath:/templates/list.html을 사용한다는 뜻이다. classpath:/경로나  .html(확장자)를 바꿔주고 싶다면 prefix랑 suffix를 바꿔주면 가능하다.
     @GetMapping("/")
-    public String list(HttpSession httpSession, Model model){ // HttpSession, Model은 Spring이 자동으로 넣어준다.
+    public String list(HttpSession httpSession, Model model,@RequestParam(name = "page", defaultValue = "1") int page){ // HttpSession, Model은 Spring이 자동으로 넣어준다.
         LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
         model.addAttribute("loginInfo", loginInfo); // 모델은 템플릿에 값을 넘겨주기위한 객체
 
         // 게시물 목록을 읽어온다. 페이징 처리한다.
-        int page = 1;
         int totalCount = boardService.getTotalCount(); // 11
         List<Board> list = boardService.getBoards(page); // page가 1,2,3,4 ....
         int pageCount = totalCount / 10;
-        if (totalCount % 10> 0){
+        if (totalCount % 10> 0){ // 나머지가 있을 경우 1page를 추가
             pageCount++;
         }
         int currentPage = page;

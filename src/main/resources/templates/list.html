@@ -63,6 +63,14 @@
             <a href="/writeForm" th:if="${loginInfo != null}">글쓰기</a>
             <span th:if="${loginInfo == null}">글쓰기</span>
         </div>
+        <div>
+            <span th:if="${pageCount / 10 < 1}" th:each="n : ${#numbers.sequence(1, pageCount)}">
+                <a th:href="@{/(page=${n})}" th:text="${n}"></a>
+            </span>
+            <span th:if="${pageCount / 10 >= 1}" th:each="n : ${#numbers.sequence(10, pageCount)}">
+                <a th:href="@{/(page=${n})}" th:text="${n}"></a>
+            </span>
+        </div>
     </div>
 </section>
 </body>
