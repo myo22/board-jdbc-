@@ -139,10 +139,21 @@ public class BoardController {
     }
 
     @PostMapping("/update")
-    public String update(@RequestParam("boardId") int boardId){
+    public String update(@RequestParam("boardId") int boardId,
+                         @RequestParam("title") String title,
+                         @RequestParam("content") String content,
+                         HttpSession httpSession){
+        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
+        if(loginInfo == null){ // 세션에 로그인 정보가 없으면 /loginform으로 redirect
+            return "redirect:/loginForm";
+        }
+        Board board =boardService.getBoard(boardId, false);
+        if(board.getUserId() != loginInfo.getUserId()){
+            return "redirect:/board?boardId=" + boardId; // 글보기로 이동한다.
+        }
         // boardId에 해당하는 글의 제목과 내용을 수정한다.
-        boardService.updateBoard(boardId);
+        boardService.updateBoard(boardId, title, content);
         // 글쓴이만 수정 가능.
-        return "redirect:/board?boardId=게시물id값"; // 수정된 글 보기로 리다이렉트한다.
+        return "redirect:/board?boardId=" + boardId; // 수정된 글 보기로 리다이렉트한다.
     }
 }

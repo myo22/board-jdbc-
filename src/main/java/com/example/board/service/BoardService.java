@@ -56,7 +56,7 @@ public class BoardService {
     }
 
     @Transactional
-    public void updateBoard(int boardId){
-        boardDao.updateBoard(boardId);
+    public void updateBoard(int boardId, String title, String content){
+        boardDao.updateBoard(boardId, title, content);
     }
 }

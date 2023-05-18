@@ -85,9 +85,14 @@ public class BoardDao {
     }
 
     @Transactional
-    public void updateBoard(int boardId){
+    public void updateBoard(int boardId, String title, String content){
         String sql = "update board set title = :title,  content = :content where board_id = :boardId";
-        SqlParameterSource params = new BeanPropertySqlParameterSource(boardId);
+        Board board = new Board();
+        board.setBoardId(boardId);
+        board.setTitle(title);
+        board.setContent(content);
+        SqlParameterSource params = new BeanPropertySqlParameterSource(board);
         jdbcTemplate.update(sql, params);
+//        jdbcTemplate.update(sql, Map.of("boardId", boardId, "title", title, "content", content));
     }
 }
