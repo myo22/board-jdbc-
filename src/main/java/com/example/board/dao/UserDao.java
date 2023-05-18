@@ -64,12 +64,16 @@ public class UserDao {
 
     @Transactional
     public User getUser(String email) {
-        String sql = "select * from user where email = :email";
-        SqlParameterSource params = new MapSqlParameterSource("email", email);
-        // user_id => setUserId, email => setEmail ... 이렇게 만들어 준다.
-        RowMapper<User> rowMapper = BeanPropertyRowMapper.newInstance(User.class);
-        User user =  jdbcTemplate.queryForObject(sql, params, rowMapper);
-        return  user;
+        try {
+            String sql = "select * from user where email = :email";
+            SqlParameterSource params = new MapSqlParameterSource("email", email);
+            // user_id => setUserId, email => setEmail ... 이렇게 만들어 준다.
+            RowMapper<User> rowMapper = BeanPropertyRowMapper.newInstance(User.class);
+            User user =  jdbcTemplate.queryForObject(sql, params, rowMapper);
+            return  user;
+        }catch (Exception ex){
+            return null;
+        }
     }
 }
 

@@ -23,6 +23,11 @@ public class UserService {
     @Transactional
     public User addUser(String name, String email, String password) {
         // 트랜잭션이 여기서 시작된다.
+        User user1 = userDao.getUser(email);
+        if (user1 != null){ // 이메일 중복 검사
+            throw new RuntimeException("이미 가입된 이메일 입니다.");
+        }
+
         User user = userDao.addUser(email,name,password); // user가 리턴 되는 것이다. - >  userDao.getLastInsertId(); // 유저의 ID값을 받아옴.
         userDao.mappingUserRole(user.getUser_id()); // 권한을 부여한다.
         return user;
