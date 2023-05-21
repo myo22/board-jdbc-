@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -81,6 +82,12 @@ public class UserController {
                 System.out.println("암호가 같습니다.");
                 LoginInfo loginInfo = new LoginInfo(user.getUser_id(), user.getEmail(), user.getName());
                 // 여기서 포인트* 각각의 브라우저마다 세션이 다르게 만들어진다. -> 서버에 접속한 클라이언트가 10개면 세션이 10개이다.
+
+                // 권한 정보를 읽어와서 loginInfo에 추가한다.
+                List<String> roles = userService.getRoles(user.getUser_id());
+                loginInfo.setRoles(roles);
+
+
                 httpSession.setAttribute("loginInfo", loginInfo); // 첫번째 파라미터가 key, 두번째 파라미터가 값. (키가 같으면 여러번 로그인 하더라도 나중 값이 덮어 씌워진다.)
                 System.out.println("세션에 로그인 정보가 저장된다.");
             }else {
