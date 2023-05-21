@@ -61,8 +61,9 @@ public class BoardController {
         System.out.println("boardId : " + boardId);
 
         // id에 해당하는 게시물을 읽어온다.
-        // id에 해당하는 게시물의 조회수도 1증가한다.ㄴ
+        // id에 해당하는 게시물의 조회수도 1증가한다.
         Board board = boardService.getBoard(boardId);
+
         model.addAttribute("board", board);
         return "board";
     }
@@ -117,6 +118,12 @@ public class BoardController {
         }
 
         // loginInfo.getUserId() 사용자가 쓴 글일 경우에만 삭제한다.
+        List<String> roles = loginInfo.getRoles();
+        if(roles.contains("ROLE_ADMIN")){
+            boardService.deleteBoard(boardId);
+        }else{
+            boardService.deleteBoard(loginInfo.getUserId(), boardId);
+        }
         boardService.deleteBoard(loginInfo.getUserId(), boardId);
 
         return "redirect:/"; // 리스트 보기로 리다이렉트한다.
