@@ -1,13 +1,29 @@
-# Docker file
+FROM gradle:7.4-jdk11-alpine as builder
+WORKDIR /build
 
-# open jdk java11 버전의 환경
-FROM openjdk:11-jdk
+# 그래들 파일이 변경되었을 때만 새롭게 의존패키지 다운로드 받게함.
+COPY build.gradle settings.gradle /build/
+RUN gradle build -x test --parallel --continue > /dev/null 2>&1 || true
 
-# JAR_FILE 변수 정의 -> 기본적으로 jar file이 2개이기 때문에 이름을 특정해야함
-ARG JAR_FILE=build/libs/board-0.0.1-SNAPSHOT.jar
+# 빌더 이미지에서 애플리케이션 빌드
+COPY . /build
+RUN gradle build -x test --parallel
 
-# JAR 파일 메인 디렉토리에 복사
-COPY ${JAR_FILE} app.jar
+# APP
+FROM openjdk:11.0-slim
+WORKDIR /app
 
-# 시스템 진입정 정의
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# 빌더 이미지에서 jar 파일만 복사
+COPY --from=builder /build/build/libs/*-SNAPSHOT.jar ./app.jar
+
+EXPOSE 8080
+
+# root 대신 nobody 권한으로 실행
+USER nobody
+ENTRYPOINT [                                                \
+    "java",                                                 \
+    "-jar",                                                 \
+    "-Djava.security.egd=file:/dev/./urandom",              \
+    "-Dsun.net.inetaddr.ttl=0",                             \
+    "app.jar"              \
+]
