@@ -1,81 +1,81 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>게시판 목록보기</title>
-    <link rel="stylesheet" href="board.css" />
-</head>
-<body>
-<section class="board">
-    <div class="page-title">
-        <div class="container">
-            <h3>글 목록보기</h3>
-        </div>
+<div layout:fragment="content">
+
+    <div class="row mt-3">
+        <form action="/" method="get">
+            <div class="col">
+               <span class="login-info_user" th:if="${loginInfo != null}">
+                   <span th:text="${loginInfo.getName()}"></span>
+               </span>
+                <span class="login-info_logout" th:if="${loginInfo == null}">
+                    <a href="/loginForm">로그인</a>
+                </span>
+                <span class="login-info_logout" th:if="${loginInfo != null}">
+                    <a href="/logout">로그아웃</a>
+                </span>
+                </span>
+                <span class="login-info_join" th:if="${loginInfo == null}">
+                    <a href="/userRegForm">회원가입</a> <!-- Get방식으로 요청 !-->
+                </span>
+            </div>
+        </form>
     </div>
 
-    <div class="login-info">
-        <div class="container">
-          <span class="login-info_user" th:if="${loginInfo != null}">
-            <span th:text="${loginInfo.getName()}"></span>
-          </span>
-            <span class="login-info_logout" th:if="${loginInfo == null}">
-            <a href="/loginForm">로그인</a>
-          </span>
-            <span class="login-info_logout" th:if="${loginInfo != null}">
-            <a href="/logout">로그아웃</a>
-          </span>
-          </span>
-            <span class="login-info_join" th:if="${loginInfo == null}">
-            <a href="/userRegForm">회원가입</a> <!-- Get방식으로 요청 !-->
-          </span>
-        </div>
-    </div>
+    <div class="row mt-3">
+        <div class="col">
 
-    <!-- board list area -->
-    <div id="board-list">
-        <div class="container">
-            <table class="board-table">
-                <thead>
-                <tr>
-                    <th scope="col" class="th-num">번호</th>
-                    <th scope="col" class="th-title">제목</th>
-                    <th scope="col" class="th-viewcnt">조회수</th>
-                    <th scope="col" class="th-name">작성자</th>
-                    <th scope="col" class="th-date">등록일</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="board : ${list}">
-                    <td th:text="${board.boardId}"></td>
-                    <th>
-                        <a th:href="@{/board(boardId=${board.boardId})}" th:text="${board.title}"></a>
-                    </th>
-                    <td th:text="${board.viewCnt}"></td>
-                    <td th:text="${board.name}"></td>
-                    <td th:text="${board.regdate}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div>
-            <a href="/writeForm" th:if="${loginInfo != null}">글쓰기</a>
-        </div>
-        <div>
-            </span>
-            <span th:if="${num < 1}" th:each="n : ${#numbers.sequence(1, pageCount)}">
-                <a th:href="@{/(page=${n})}" th:text="${n}"></a>
-            </span>
-            <span th:if="${num >= 1}" th:each="n : ${#numbers.sequence(start, pageCount)}">
-                <a th:href="@{/(page=${n})}" th:text="${n}"></a>
-                <a th:href="@{/(page=${n})}" th:text="prev"></a>
-            </span>
-        </div>
-    </div>
-</section>
-</body>
-</html>
+            <div class="card">
+                <div class="card-header">
+                    글 목록
+                </div>
+                <div class="card-body" >
+                    <h5 class="card-title">Board List </h5>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">번호</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">조회수</th>
+                            <th scope="col">작성자</th>
+                            <th scope="col">등록일</th>
+                        </tr>
+                        </thead>
+
+                        <tr th:each="board : ${list}"  >
+                            <th scope="row">[[${board.boardId}]]</th>
+                            <td>
+                                <a th:href="|@{/board/(boardId =${board.boardId})}|"> [[${board.title}]] </a>
+                            </td>
+                            <td>[[${board.viewCnt}]]</td>
+                            <td>[[${board.name}]]</td>
+                            <td>[[${board.regdate}]]</td>
+                        </tr>
+
+                        <div>
+                            <a href="/writeForm" th:if="${loginInfo != null}">글쓰기</a>
+                        </div>
+                    </table>
+
+                    <div class="float-end">
+                        <ul class="pagination flex-wrap">
+
+                            <th:block th:each="n : ${#numbers.sequence(1, pageCount)}">
+                                <a th:href="@{/(page=${n})}" th:text="${n}"></a>
+                            </th:block>
+
+                        </ul>
+                    </div>
+
+                </div><!--end card body-->
+            </div><!--end card-->
+        </div><!-- end col-->
+    </div><!-- end row-->
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+</script>
