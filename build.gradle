@@ -25,7 +25,8 @@ dependencies {
     compileOnly 'org.projectlombok:lombok' // dto 이런것들을 편리하게 코드를 작성하게 도와줌.
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
 }
 
 tasks.named('test') {
