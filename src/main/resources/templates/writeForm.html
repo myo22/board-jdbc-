@@ -1,20 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>글쓰기</title>
 </head>
-<body>
-    <h1>글쓰기 폼</h1>
-    <form action="/write" method="post">
-        이름 : <span th:text="${loginInfo.name}"></span><br>
-        제목 : <input type="text" name="title" /><br />
-        내용 : <br>
-        <textarea name="content" cols="50" rows="5"></textarea><br> <!-- 50개의 컬럼과 5줄로 형성 -->
-        <input type="submit" value="등록" />
-    </form>
-</body>
 
-</html>
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    글쓰기폼
+                </div>
+                <div class="card-body">
+                    <form action="/write" method="post">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">제목</span>
+                            <input type="text" name="title" class="form-control" placeholder="Title">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">내용</span>
+                            <textarea class="form-control col-sm-5" rows="5" name="content"></textarea>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" th:text="${loginInfo.name}"></span>
+                            <input type="text" name="writer" class="form-control" placeholder="Writer">
+
+                        </div>
+
+                        <div class="my-4">
+                            <div class="float-end">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div><!--end card body-->
+
+            </div><!--end card-->
+        </div><!-- end col-->
+    </div><!-- end row-->
+</div>
+
+
+<script layout:fragment="script" th:inline="javascript">
+</script>
