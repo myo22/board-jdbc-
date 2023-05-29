@@ -12,10 +12,14 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    글쓰기폼
+                    글쓰기
                 </div>
                 <div class="card-body">
                     <form action="/write" method="post">
+
+                        <div class="input-group mb-3">
+                            <span th:text="${loginInfo.name}"></span>
+
                         <div class="input-group mb-3">
                             <span class="input-group-text">제목</span>
                             <input type="text" name="title" class="form-control" placeholder="Title">
@@ -25,11 +29,6 @@
                             <span class="input-group-text">내용</span>
                             <textarea class="form-control col-sm-5" rows="5" name="content"></textarea>
                         </div>
-
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" th:text="${loginInfo.name}"></span>
-                            <input type="text" name="writer" class="form-control" placeholder="Writer">
-
                         </div>
 
                         <div class="my-4">
