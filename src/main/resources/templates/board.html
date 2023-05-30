@@ -7,21 +7,21 @@
     <title>게시물 상세보기</title>
 </head>
 
-<body>
-<h1 th:text="${board.title}"></h1>
-<div>글쓴이 : <span th:text="${board.name}"></span></div>
-<div>제목 : <span th:text="${board.title}"></span></div>
-<div>조회수 : <span th:text="${board.viewCnt}"></span></div>
-<div>작성일 : <span th:text="${board.regdate}"></span></div>
-<div>내용 : <span th:text="${board.content}"></span></div>
+<!--<body>-->
+<!--<h1 th:text="${board.title}"></h1>-->
+<!--<div>글쓴이 : <span th:text="${board.name}"></span></div>-->
+<!--<div>제목 : <span th:text="${board.title}"></span></div>-->
+<!--<div>조회수 : <span th:text="${board.viewCnt}"></span></div>-->
+<!--<div>작성일 : <span th:text="${board.regdate}"></span></div>-->
+<!--<div>내용 : <span th:text="${board.content}"></span></div>-->
 
-<div><a href="/">목록보기</a></div>
-<!-- 로그인 하지 않은 상태면 수정하기 ,삭제하기 비활성화 -->
-<!-- 로그인한 사용자가 쓴 글인가? -->
-<div><a th:href="@{/updateform(boardId=${board.boardId})}">수정하기</a></div>
-<div><a th:href="@{/delete(boardId=${board.boardId})}">삭제하기</a></div>
-</body>
-</html>
+<!--<div><a href="/">목록보기</a></div>-->
+<!--&lt;!&ndash; 로그인 하지 않은 상태면 수정하기 ,삭제하기 비활성화 &ndash;&gt;-->
+<!--&lt;!&ndash; 로그인한 사용자가 쓴 글인가? &ndash;&gt;-->
+<!--<div><a th:href="@{/updateform(boardId=${board.boardId})}">수정하기</a></div>-->
+<!--<div><a th:href="@{/delete(boardId=${board.boardId})}">삭제하기</a></div>-->
+<!--</body>-->
+<!--</html>-->
 
 <div layout:fragment="content">
     <div class="row mt-3">
@@ -56,14 +56,12 @@
 <!--                    </div>-->
 
                     <div class="my-4">
-                        <div class="float-end" th:with="link = ${pageRequestDTO.getLink()}">
-                            <a th:href="|@{/board/list}?${link}|" class="text-decoration-none">
-                                <button type="button" class="btn btn-primary">List</button>
-                            </a>
-                            <a th:href="|@{/board/modify(bno=${dto.bno})}&${link}|" class="text-decoration-none">
-                                <button type="button" class="btn btn-secondary">Modify</button>
-                            </a>
-                        </div>
+                        <a th:href="@{/updateform(boardId=${board.boardId})}" class="text-decoration-none">
+                            <button type="button" class="btn btn-primary">수정하기</button>
+                        </a>
+                        <a th:href="@{/delete(boardId=${board.boardId})}" class="text-decoration-none">
+                            <button type="button" class="btn btn-secondary">삭제하기</button>
+                        </a>
                     </div>
 
 
