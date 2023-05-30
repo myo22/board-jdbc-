@@ -29,7 +29,7 @@ public class BoardDao {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         insertBoard = new SimpleJdbcInsert(dataSource)
                 .withTableName("board")
-                .usingGeneratedKeyColumns("board_id");
+                .usingGeneratedKeyColumns("board_id"); // 자동으로 증가되는 id를 설정.
     }
 
     @Transactional
@@ -64,8 +64,8 @@ public class BoardDao {
     public Board getBoard(int boardId) {
         String sql = "select b.user_id, b.board_id, b.title, b.regdate, b.view_cnt, u.name, b.content from board b, user u where b.user_id = u.user_id and :boardId";
         RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
-        SqlParameterSource params = new BeanPropertySqlParameterSource(boardId);
-        Board board = jdbcTemplate.queryForObject(sql, params, rowMapper);
+        SqlParameterSource params = new MapSqlParameterSource("boardId", boardId);
+        Board board = jdbcTemplate.queryForObject(sql,  params, rowMapper);
         return board;
     }
 
