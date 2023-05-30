@@ -42,7 +42,7 @@
 
                     <div class="input-group mb-3">
                         <span class="input-group-text">내용</span>
-                        <input type="text" class="form-control" th:value="${board.content}" readonly>
+                        <textarea class="form-control col-sm-5" rows="5" readonly>[[${board.content}]]</textarea>
                     </div>
 
                     <div class="input-group mb-3">
