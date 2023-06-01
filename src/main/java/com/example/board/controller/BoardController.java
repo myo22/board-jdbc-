@@ -36,14 +36,7 @@ public class BoardController {
         if (totalCount % 10> 0){ // 나머지가 있을 경우 1page를 추가
             pageCount++;
         }
-        int num = pageCount / 10;
-        int start = (num / 10) * 10;
-        int currentPage = page;
-        model.addAttribute("num", num);
-        model.addAttribute("start", start);
-        model.addAttribute("list", list);
         model.addAttribute("pageCount", pageCount);
-        model.addAttribute("currenPage", currentPage);
 
 //        System.out.println("totalCount : " + totalCount);
 //        for(Board board : list){
