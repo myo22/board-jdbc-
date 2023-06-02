@@ -30,13 +30,28 @@ public class BoardController {
         model.addAttribute("loginInfo", loginInfo); // 모델은 템플릿에 값을 넘겨주기위한 객체
 
         // 게시물 목록을 읽어온다. 페이징 처리한다.
-        int totalCount = boardService.getTotalCount(); // 11
+        int total = boardService.getTotalCount(); // 11
         List<Board> list = boardService.getBoards(page); // page가 1,2,3,4 ....
-        int pageCount = totalCount / 10;
-        if (totalCount % 10> 0){ // 나머지가 있을 경우 1page를 추가
-            pageCount++;
-        }
-        model.addAttribute("pageCount", pageCount);
+//        int pageCount = total / 10;
+//        if (total % 10> 0) { // 나머지가 있을 경우 1page를 추가
+//            pageCount++;
+//        }
+
+        int end = (int)(Math.ceil(page / 10.0)) * 10;
+//        if (total % 10> 0) { // 나머지가 있을 경우 1page를 추가
+//            end++;
+//        }
+        int start = end - 9;
+
+        boolean prev = start > 1;
+
+        boolean next = total > 10 * end;
+
+        model.addAttribute("next", next);
+        model.addAttribute("prev", prev);
+        model.addAttribute("start", start);
+        model.addAttribute("end", end);
+        model.addAttribute("list", list);
 
 //        System.out.println("totalCount : " + totalCount);
 //        for(Board board : list){
