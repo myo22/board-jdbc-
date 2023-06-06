@@ -69,7 +69,10 @@ public class BoardController {
     // /board?id=3
     // /board?id=3
     @GetMapping("/board")
-    public String board(@RequestParam("boardId") int boardId, Model model){
+    public String board(@RequestParam("boardId") int boardId, Model model, HttpSession httpSession){
+        LoginInfo loginInfo = (LoginInfo)httpSession.getAttribute("loginInfo");
+        model.addAttribute("loginInfo", loginInfo); // 모델은 템플릿에 값을 넘겨주기위한 객체
+
         System.out.println("boardId : " + boardId);
 
         // id에 해당하는 게시물을 읽어온다.
@@ -166,10 +169,12 @@ public class BoardController {
         if(loginInfo == null){ // 세션에 로그인 정보가 없으면 /loginform으로 redirect
             return "redirect:/loginForm";
         }
+
         Board board =boardService.getBoard(boardId, false);
         if(board.getUserId() != loginInfo.getUserId()){
             return "redirect:/board?boardId=" + boardId; // 글보기로 이동한다.
         }
+
         // boardId에 해당하는 글의 제목과 내용을 수정한다.
         boardService.updateBoard(boardId, title, content);
         // 글쓴이만 수정 가능.

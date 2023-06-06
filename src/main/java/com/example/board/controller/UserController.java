@@ -49,7 +49,7 @@ public class UserController {
         userService.addUser(name, email, password);
 
 
-        return "redirect:/welcome"; // 브라우저에게 자동으로 http://localhost:8080/welcome으로 이동
+        return "redirect:/loginForm"; // 브라우저에게 자동으로 http://localhost:8080/welcome으로 이동
     }
 
     // http://localhost:8080/welcome
