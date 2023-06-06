@@ -62,7 +62,7 @@ public class BoardDao {
 
     @Transactional(readOnly = true)
     public Board getBoard(int boardId) {
-        String sql = "select b.user_id, b.board_id, b.title, b.regdate, b.view_cnt, u.name, b.content from board b, user u where b.user_id = u.user_id and b.board_id = :boardId";
+        String sql = "select b.user_id, b.board_id, b.title, b.regdate, b.view_cnt, u.name, b.content from board b, user u where b.user_id = u.user_id  and b.board_id = :boardId";
         RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
 //        SqlParameterSource params = new MapSqlParameterSource("boardId", boardId);
         Board board = jdbcTemplate.queryForObject(sql, Map.of("boardId", boardId), rowMapper);
@@ -80,7 +80,7 @@ public class BoardDao {
 
     @Transactional
     public void deleteBoard(int boardId){
-        String sql = "delete from board where = :boardId";
+        String sql = "delete from board where board_id = :boardId";
         jdbcTemplate.update(sql, Map.of("boardId", boardId));
     }
 

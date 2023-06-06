@@ -47,7 +47,7 @@
 
                     <div class="input-group mb-3">
                         <span class="input-group-text">작성일</span>
-                        <input type="text" class="form-control" th:value="${board.regdate}" readonly>
+                        <input type="text" class="form-control" th:value="${#temporals.format(board.regdate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
                     </div>
 
 <!--                    <div class="input-group mb-3">-->

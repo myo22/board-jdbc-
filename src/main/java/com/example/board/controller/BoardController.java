@@ -139,7 +139,6 @@ public class BoardController {
         }else{
             boardService.deleteBoard(loginInfo.getUserId(), boardId);
         }
-        boardService.deleteBoard(loginInfo.getUserId(), boardId);
 
         return "redirect:/"; // 리스트 보기로 리다이렉트한다.
     }
