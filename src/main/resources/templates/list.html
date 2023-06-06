@@ -58,24 +58,33 @@
 
                         <div>
                             <a href="/writeForm" th:if="${loginInfo != null}">글쓰기</a>
+                            <span th:if="${loginInfo == null}">글쓰기</span>
                         </div>
                     </table>
 
                     <div class="float-end">
                         <ul class="pagination flex-wrap">
-                            <li class="page-item" th:if="${prev}">
-                                <a class="page-link" th:data-num="${start -1}">Previous</a>
-                            </li>
 
-                            <th:block th:each="i: ${#numbers.sequence(start, end)}">
+                            <th:block th:each="i: ${#numbers.sequence(1, pageCount)}">
                                 <li th:class="${page == i}?'page-item active':'page-item'" >
-                                    <a class="page-link"  th:data-num="${i}">[[${i}]]</a>
+                                    <a class="page-link"  th:data-num="${i}" th:href="@{/(page=${i})}">[[${i}]]</a>
                                 </li>
                             </th:block>
 
-                            <li class="page-item" th:if="${next}">
-                                <a class="page-link"  th:data-num="${end + 1}">Next</a>
-                            </li>
+<!--                            <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">-->
+<!--                                <li th:class="${responseDTO.page == i}?'page-item active':'page-item'" >-->
+<!--                                    <a class="page-link"  th:data-num="${i}">[[${i}]]</a>-->
+<!--                                </li>-->
+<!--                            </th:block>-->
+
+<!--                            <li class="page-item" th:if="${prev}">-->
+<!--                                <a class="page-link" th:data-num="${start -1}">Previous</a>-->
+<!--                            </li>-->
+
+<!--                            <li class="page-item" th:if="${next}">-->
+<!--                                <a class="page-link"  th:data-num="${end + 1}">Next</a>-->
+<!--                            </li>-->
+
 
                         </ul>
                     </div>

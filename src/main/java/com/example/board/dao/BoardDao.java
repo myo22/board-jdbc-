@@ -62,10 +62,10 @@ public class BoardDao {
 
     @Transactional(readOnly = true)
     public Board getBoard(int boardId) {
-        String sql = "select b.user_id, b.board_id, b.title, b.regdate, b.view_cnt, u.name, b.content from board b, user u where b.user_id = u.user_id and :boardId";
+        String sql = "select b.user_id, b.board_id, b.title, b.regdate, b.view_cnt, u.name, b.content from board b, user u where b.user_id = u.user_id and b.board_id = :boardId";
         RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
-        SqlParameterSource params = new MapSqlParameterSource("boardId", boardId);
-        Board board = jdbcTemplate.queryForObject(sql,  params, rowMapper);
+//        SqlParameterSource params = new MapSqlParameterSource("boardId", boardId);
+        Board board = jdbcTemplate.queryForObject(sql, Map.of("boardId", boardId), rowMapper);
         return board;
     }
 
@@ -86,7 +86,9 @@ public class BoardDao {
 
     @Transactional
     public void updateBoard(int boardId, String title, String content){
-        String sql = "update board set title = :title,  content = :content where board_id = :boardId";
+        String sql = "update board\n" +
+                "set title = :title , content = :content\n" +
+                "where board_id = :boardId";
         Board board = new Board();
         board.setBoardId(boardId);
         board.setTitle(title);

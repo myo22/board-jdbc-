@@ -32,31 +32,35 @@ public class BoardController {
         // 게시물 목록을 읽어온다. 페이징 처리한다.
         int total = boardService.getTotalCount(); // 11
         List<Board> list = boardService.getBoards(page); // page가 1,2,3,4 ....
-//        int pageCount = total / 10;
-//        if (total % 10> 0) { // 나머지가 있을 경우 1page를 추가
-//            pageCount++;
-//        }
+        int pageCount = total / 10; // 1;
+        if (total % 10> 0) { // 나머지가 있을 경우 1page를 추가
+            pageCount++;
+        }
+        int currentPage = page;
 
-        int end = (int)(Math.ceil(page / 10.0)) * 10;
+//        int end = (int)(Math.ceil(page / 10.0)) * 10;
 //        if (total % 10> 0) { // 나머지가 있을 경우 1page를 추가
 //            end++;
 //        }
-        int start = end - 9;
+//        int start = end - 9;
+//
+//        boolean prev = start > 1;
+//
+//        boolean next = total > 10 * end;
 
-        boolean prev = start > 1;
-
-        boolean next = total > 10 * end;
-
-        model.addAttribute("next", next);
-        model.addAttribute("prev", prev);
-        model.addAttribute("start", start);
-        model.addAttribute("end", end);
-        model.addAttribute("list", list);
+//        model.addAttribute("next", next);
+//        model.addAttribute("prev", prev);
+//        model.addAttribute("start", start);
+//        model.addAttribute("end", end);
 
 //        System.out.println("totalCount : " + totalCount);
 //        for(Board board : list){
 //            System.out.println(board);
 //        }
+        model.addAttribute("list", list);
+        model.addAttribute("pageCount", pageCount);
+        model.addAttribute("currentPage", currentPage);
+
 
         return "list"; // 컨트롤러의 메소드가 리턴하는 문자열은 템플릿 이름이다.
     }
