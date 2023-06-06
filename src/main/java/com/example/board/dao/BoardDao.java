@@ -54,7 +54,7 @@ public class BoardDao {
     public List<Board> getBoards(int page) {
         // start는 0, 10, 20, 30 는 1page, 2page, 3page를 나타냄
         int start = (page -1) * 10;
-        String sql ="select b.user_id, b.board_id, b.title, b.regdate, b.view_cnt, u.name from board b, user u where b.user_id = u.user_id order by board_id desc limit :start, 10";
+        String sql ="select b.user_id, b.board_id, b.title, b.regdate, b.view_cnt, u.name from board b, user u where b.user_id = u.user_id  limit :start, 10";
         RowMapper<Board> rowMapper = BeanPropertyRowMapper.newInstance(Board.class);
         List<Board> list = jdbcTemplate.query(sql, Map.of("start", start), rowMapper);
         return list;
